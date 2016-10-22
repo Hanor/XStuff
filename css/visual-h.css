@@ -1,0 +1,289 @@
+/*  Criado por Hanor Sátiro Cintra */
+
+html, body
+{
+	margin: 0px;
+	height: 100%;
+	width: 100%;
+	min-width: 400px;
+	min-height: 400px;
+}
+
+.v-nav-bar
+{
+	float: left;
+	width: 100%;
+	height: 1.5cm;
+	background: rgb(180, 45, 60);
+	cursor: default;
+	box-shadow: 0px 0px 6px 1px rgb(0,0,0);
+	font-family: verdana, helvetica;
+}
+
+.v-nav-bar-left
+{
+	float: left;
+	height: 100%;
+	line-height: 1.5cm;
+	cursor: pointer;
+	color: rgb(255,255,255);
+	padding-left: 5px;
+	font-size: 17px;
+	text-align: center;
+	padding-left: 100px;
+}
+.v-nav-bar-left:hover
+{
+	text-shadow:0px 0px 3px rgb(255,255,255);
+}
+
+.v-left-bar
+{
+	float: left;
+	width: 1.5cm;
+	background: rgba(255,255,255,0);
+	color: rgb(180, 45, 60);
+	display: none;
+	border-right: 1px solid rgba(0,0,0,0.1);
+	padding-top: 100px;
+}
+.v-left-bar-item
+{
+	float: left;
+	width: 100%;
+	height: 1.5cm;
+	line-height: 50px;
+	text-align: center;
+	font-size: 14px;
+	cursor: pointer;
+	border: 1px solid rgba(0,0,0,0.1);
+}
+.v-left-bar-mid
+{
+	border-top:none;
+}
+
+
+.v-left-bar-item:hover
+{
+	text-shadow: 0px 0px 8px rgb(255,255,255);
+	box-shadow: inset 0px 0px 15px 4px rgba(255,255,255,0.2);
+}
+.v-container
+{
+	float: left;
+	width: calc(100% - 1.5cm);	
+	height: calc(100% - 1.5cm);
+	color: rgba(0,0,0,0.7);
+	padding: 50px;
+}
+.v-head
+{
+	float: left;
+	width: 100%;
+	height: auto;
+	line-height: 50px;
+	font-family: verdana, helvetica;
+	font-weight: bold;
+	font-size:18px;
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.v-window
+{
+	float: left;
+	width: calc(100%);
+	font-size: 18px;
+	font-family: verdana, helvetica;
+	color: rgba(0,0,0,0.7);
+	margin-top: 25px;
+	padding: 25px;
+	border: 1px solid rgba(0,0,0,0.1);
+	border-left: 10px solid rgb(190, 55, 70);
+	border-bottom-left-radius: 7px;
+	border-top-left-radius: 7px;
+	font-size: 14px;
+}
+.v-window-btns
+{
+	float: right;
+	height: 1.2cm;
+}
+.v-window-btn
+{
+	width: 1.2cm;
+	height: 100%;
+	text-align: center;
+	line-height: 1.2cm;
+	cursor: pointer;
+}
+.v-window-btn-ready
+{
+	color: rgb(255,255,255);
+	background: rgb(20,150,80);
+}
+.v-window-btn-ready:hover
+{
+	text-shadow: 0px 0px 8px rgb(255,255,255);
+	box-shadow: inset 0px 0px 15px 4px rgba(255,255,255,0.2);
+	background: rgb(20,180,100);
+}
+
+@media (min-width: 400px) {
+	.v-window-msg
+	{
+		width:300px; 
+		height:1.2cm; 
+		line-height:1.2cm; 
+		float:left;
+	}
+}
+@media (max-width: 399px) {
+	.v-window-msg
+	{ 
+		height:1.2cm; 
+		line-height:1.2cm; 
+		float:left;
+	}	
+}
+
+/* Estilo para o modal */
+
+.v-modal-background
+{
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.9);
+	position: absolute;
+	z-index: 1000000000000000;
+}
+.v-modal
+{
+	position: relative;
+	background: rgba(255,255,255,1);
+	border: 1px solid rgba(0,0,0,1);
+	float: left;
+	height: auto;
+	display: none;
+	font-family: verdana, helvetica;
+	color: rgba(0,0,0,0.8);
+}
+.v-modal-head, .v-modal-footer, .v-modal-body
+{
+	float: left;
+	width: 100%;
+	margin: 5px;
+	padding: 5px;
+}
+
+.v-modal-head
+{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 50px;
+	height: 50px;
+}
+.v-modal-footer
+{
+	border-top: 1px solid rgba(0,0,0,0.1);
+	height: 60px;	
+}
+
+.v-modal-body-data
+{
+	float: left;
+	line-height: 20px;
+	height: 60px;
+	width: 350px;
+	margin-left: 4px;
+	padding-bottom: 5px;
+	position: relative;
+	word-wrap:break-word;
+}
+
+.v-data-text
+{
+	float: left;
+	text-align: left;
+	width: 120px;
+	font-weight: bold;
+	height: auto;
+	margin-right: 4px;
+}
+.v-data-component
+{
+	float: left;
+	text-align: left;
+	width: 150px;
+	height: auto;
+}
+
+.v-modal-body-error
+{
+	float: left;
+	width: calc(100% - 5px);
+	line-height: 20px;
+	color:rgb(255,255,255);
+	background: rgb(230, 45, 60);
+	display: none;
+	padding-left: 5px;
+	padding-right: 5px;
+	position: relative;
+	margin-top: 5px;
+}
+
+.v-modal-btn
+{
+	float: right;
+	height: 45px;
+	width: 45px;
+	line-height: 45px;
+	margin-top: 7.5px;
+	margin-right: 7.5px;
+	text-align: center;
+	border: 1px solid rgba(0,0,0,0.4);
+	cursor: pointer;
+}
+.v-modal-btn-cancel
+{
+	margin-right: 0px;
+}
+.v-modal-btn-ready
+{
+	color: rgb(255,255,255);
+	background: rgb(20,150,80);
+	margin-right: 5px;
+}
+.v-modal-btn-warning
+{
+	color: rgb(255,255,255);
+	background: rgb(180, 45, 60);
+	margin-right: 5px;
+}
+.v-modal-btn-cancel:hover, .v-modal-btn-ready:hover, .v-modal-btn-warning:hover
+{
+	text-shadow: 0px 0px 8px rgb(255,255,255);
+	box-shadow: inset 0px 0px 15px 4px rgba(255,255,255,0.2);
+}
+
+.v-modal-btn-cancel:hover
+{
+	background: rgb(210,210,210);
+}
+.v-modal-btn-ready:hover
+{
+	background: rgb(20,180,100);
+}
+.v-modal-btn-warning:hover
+{
+	background: rgb(180, 45, 60)	
+}
+.v-task-edit, .v-task-remove
+{
+	text-align: center;
+	cursor: pointer;
+}
+.v-task-edit:hover, .v-task-remove:hover
+{
+	font-size: 16px;
+}

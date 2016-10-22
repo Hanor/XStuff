@@ -1,0 +1,31 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>XStuff</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/visual-h.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
+    </head>
+    <body>
+        <div ng-app = "XStuff" ng-controller = "Init">
+            <div class = "v-nav-bar">
+                <div class = "v-nav-bar-left">
+                    XStuff Alfa 0.0.1
+                </div>
+            </div>
+            <div class = "v-left-bar" ng-controller = "Left_Bar">
+            </div>
+            <div class = "v-container" ng-controller = "Window">
+            </div>
+        </div>
+    </body>
+    <includes>
+        <script src="js/external/angular.min.js"></script>
+        <script src="js/external/jquery-1.12.0.min.js"></script> <!-- apenas para seleção dos itens -->
+        <script src="js/external/bootstrap.min.js"></script> <!-- apenas para alguns componentes do bootstrap que tornam interface mais bélica -->
+        <script src="js/core/xstuff_handler.js"></script>
+    </includes>
+</html>
