@@ -273,7 +273,7 @@ var Handlers = function()
 			if(component.type == 'text')
 				template += '<input type = "'+ component.type +'">'
 			else if(component.type == 'textarea')
-				template += '<textarea rows = 2 max-rows = 2></textarea>'
+				template += '<textarea rows = 2 max-rows = 2 style = "resize: none;"></textarea>'
 			else if(component.type == 'combo')
 			{
 				template += '<select style = "height:30px; width:185px;">'
