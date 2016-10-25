@@ -12,6 +12,7 @@ var Handlers = function()
 	var Tasks_Count = 0;
 	var Unload = {};     // faz a destruição de elementos carregados
 
+	var last_opt;
 	var opt = { //Aramazena o estado, ou seja, qual funcionalidade do sistema está sendo utilizada no momento.
 		name: "Home",
 		elem: null
@@ -28,6 +29,77 @@ var Handlers = function()
 
 	/* ---------------------------------------------------------- Eventos de objetos do sistema e afins ------------------------------------------ */
 
+	Events.Closer = function()
+	{
+		$(document).unbind('keydown').on('keydown', function(ev)
+		{
+			if(ev.which == "27")
+			{
+				opt.elem.popover('toggle');
+				opt.elem.css({
+					'background': 'rgb(255, 255, 255)',
+					color: 'rgb(180, 45, 60)'
+				})
+
+				opt.name = last_opt;
+
+				if(opt.name == "new_tasks")
+				{
+					opt.elem = $("#new_tasks");
+					opt.elem.css({
+						'background': 'rgb(180, 45, 60)',
+						color: 'rgb(255,255,255)'
+					})
+				}
+				else 
+					opt.elem = null;
+
+
+				$(".v-modal-background").remove();
+			}
+		})
+	}
+	Events.FileLoader = function()
+	{
+		$('#btn-search').unbind('click').on('click', function(evtLoad)
+		{
+			$('#v-input-load').trigger('click');
+			$('#v-input-load').unbind('change').on('change', function(loaded)
+			{
+				var files = loaded.target.files;
+				$("#v-input-info").val(files[0].name);
+				$("#btn-submit").unbind('click').on('click', function(evt)
+				{
+					if(files[0].name.search("csv") != -1)
+					{
+						var fr = new FileReader();
+				        fr.onload = function () 
+				        {
+				            Load.TasksFile(fr.result);
+				        }
+				        fr.readAsText(files[0]);
+
+				        opt.elem.popover('toggle');
+						opt.elem.css({
+							'background': 'rgb(255, 255, 255)',
+							color: 'rgb(180, 45, 60)'
+						})
+
+						opt.elem = $("#new_tasks");
+						opt.name = "new_tasks";
+
+						opt.elem.css({
+							'background': 'rgb(180, 45, 60)',
+							color: 'rgb(255,255,255)'
+						});
+					}
+					else
+						alert("Formato de arquivo inconsistente!")
+				})
+			})
+		})
+		Events.Closer();
+	}
 	Events.Home = function()
 	{
 		$(window).resize(function()
@@ -71,17 +143,27 @@ var Handlers = function()
 			{
 				if(opt.elem != null)	
 				{	
+					if(opt.name == "open_tasks")
+						opt.elem.popover('toggle');
 					opt.elem.css({
 						'background': 'rgb(255, 255, 255)',
 						color: 'rgb(180, 45, 60)'
 					});
 				}
 
+				last_opt = opt.name;
+
 				opt.name = elem.attr('data-click');
 				opt.elem = elem;
 			}
 			if(opt.name == "new_tasks")
 				Modules.NewTasks();
+			else if(opt.name == "open_tasks")
+			{
+				Load.Popover(elem, opt.name);
+				opt.elem.popover('toggle');
+				Events.FileLoader();
+			}
 		})
 	}
 	Events.Modal = function(type)
@@ -171,7 +253,7 @@ var Handlers = function()
 			})
 			ev.preventDefault();
 		})
-		$('.v-window-btn').unbind('click').on('click', function(ev)
+		$('.v-window-btn-ready').unbind('click').on('click', function(ev)
 		{
 			$(this).tooltip('hide');
 
@@ -184,6 +266,13 @@ var Handlers = function()
 
 			Load.Modal(options)
 			ev.preventDefault();
+		})
+
+		$('.v-window-btn-download').unbind('click').on('click', function(ev)
+		{
+			$(this).tooltip('hide');
+
+			Modules.GetCSVData();
 		})
 	}
 
@@ -321,7 +410,7 @@ var Handlers = function()
 	HTML.Templates.MenuBar = function() 
 	{
 		var template = '';
-		template += '<div class = "v-left-bar-item" title = "Nova lista" data-toggle = "tooltip" data-placement = "right" data-click = "new_tasks">'
+		template += '<div id = "new_tasks" class = "v-left-bar-item" title = "Nova lista" data-toggle = "tooltip" data-placement = "right" data-click = "new_tasks">'
 		template += '<span class = "glyphicon glyphicon-plus"></span>'
 		template += '</div>'
 		template += '<div class = "v-left-bar-item v-left-bar-mid" title = "Abrir lista" data-toggle = "tooltip" data-placement = "right" data-click = "open_tasks">'
@@ -335,6 +424,30 @@ var Handlers = function()
 		template += '<div class = "v-modal-background">'
 		template += '<div class = "v-modal" style = "width:'+ width +'px;">'
 		template += '</div>'
+		template += '</div>'
+		return template;
+	}
+	HTML.Templates.OpenFile =  function()
+	{
+		var template = '';
+		template += '<div style = "float:left; height:50px; width:300px">';
+		template += '<input id = "v-input-load" type = "file" name="upload" style = "width: 0px; height: 0px; overflow:hidden;">'; //este elemento é oculto, pois, a estética dele é feia e por este motivo foi criado os elementos abaixo.
+		template += '<input id = "v-input-info" type = "text" readonly style = "float:left; height:40px; text-align:center">';//para melhorar a aparência estética!
+		template += '<div id = "btn-search" class = "v-load-file" title = "Procurar">'
+		template += '<span class = "glyphicon glyphicon-search"></span>'
+		template += '</div>'
+		template += '<div id = "btn-submit" class = "v-submit-file" title = "Carregar">'
+		template += '<span class = "glyphicon glyphicon-ok"></span>'
+		template += '</div>'
+		template += '</div>';
+		return template;
+	}
+	HTML.Templates.Popover = function()
+	{
+		var template = '';
+		template += '<div class="popover" role="tooltip">'
+		template += '<div class="arrow"></div>';
+		template += '<div class="popover-content"></div>'
 		template += '</div>'
 		return template;
 	}
@@ -372,11 +485,15 @@ var Handlers = function()
 		var status_color;
 		var second, minute, hour, day, month, year;
 		
-		if(open_date == null || open_date == "")
+		if(open_date == null || open_date == "" || open_date == "N/A")
 			open_date = "N/A"
+		else
+			open_date = new Date(open_date);
 
-		if(end_date == null || end_date == "")
+		if(end_date == null || end_date == "" || end_date == "N/A")
 			end_date = "N/A"
+		else
+			end_date = new Date(end_date);
 
 		if(open_date != "N/A")
 		{
@@ -476,6 +593,9 @@ var Handlers = function()
 		template += '<div class = "v-window-btn v-window-btn-ready" title = "Adicionar tarefa">'
 		template += '<span class = "glyphicon glyphicon-plus"></span>'
 		template += '</div>'
+		template += '<div class = "v-window-btn v-window-btn-download" title = "Baixar CSV">'
+		template += '<span class = "glyphicon glyphicon-download"></span>'
+		template += '</div>'
 		template += '</div>'
 		template += '</div>'
 		return template;
@@ -535,6 +655,22 @@ var Handlers = function()
 
 		Events.Modal(type);
 	}
+	Load.Popover = function(elem, type)
+	{
+		if(type == "open_tasks")
+		{
+			elem.popover(
+			{
+				html:true,
+				placement:"right",
+				title:"Abrir CSV",
+				container:"body",
+				content: HTML.Templates.OpenFile(),
+				trigger:"manual",
+				template: HTML.Templates.Popover()
+			})
+		}
+	}
 	Load.Tasks = function()
 	{
 		var body = $(".v-window").find('table').find('tbody').empty();
@@ -552,12 +688,42 @@ var Handlers = function()
 
 			$(".v-window").find('.v-window-msg').hide();	
 			$(".v-window").find('table').fadeIn(200);
+			$(".v-window-btn-download").fadeIn(200);
 		}
 		else
 		{
 			$(".v-window").find('table').hide();
 			$(".v-window").find('.v-window-msg').fadeIn(200);
+			$(".v-window-btn-download").fadeOut(200);
 		}
+	}
+	Load.TasksFile = function(file)
+	{
+		var str = file;
+		var lines = str.split("\n");
+		var keys = [];
+
+		Tasks = [];
+
+		for(var i = 0; i < lines.length; i++)
+		{
+			var cols = lines[i].split(";");
+			if( i  == 0)
+			{
+				keys = cols;
+			}
+			else
+			{
+				var task = {}
+				for(var j = 0; j < cols.length; j++)
+					task[keys[j]] = cols[j];
+				Tasks.push(task);
+			}
+		}
+
+		if(Tasks.length > 0)
+			Tasks_Count = Tasks[Tasks.length -1].id + 1;
+		Modules.NewTasks();
 	}
 
 	/* ---------------------------------------------------------- Funções unload servem para remover elementos carregados ----------------------------------- */
@@ -599,6 +765,52 @@ var Handlers = function()
 
 		selected.elem = elem;
 		Load.Modal(options);
+	}
+	Modules.GetCSVData = function()
+	{
+		if(Tasks.length > 0 )	
+		{
+			var csv = "";
+			var blob;
+
+			csv += "id;";
+			csv += "Nome da tarefa;";
+			csv += "Status;";
+			csv += "Descrição;";
+			csv += "Data de abertura;";
+			csv += "Data de encerramento";
+
+			csv += "\n";
+
+			for(var i = 0; i < Tasks.length; i++)
+			{
+				var task = Tasks[i];
+
+				csv += task.id +";"
+				csv += task["Nome da tarefa"] +";"
+				csv += task["Status"] +";"
+				csv += task["Descrição"] +";"
+				csv += task["Data de abertura"] +";"
+				csv += task["Data de encerramento"];
+
+				if(i+1 != Tasks.length)
+					csv += "\n";
+
+			}
+			blob = new Blob([csv],{
+			    type: "text/csv;charset=utf-8;"
+			});
+
+			var url = URL.createObjectURL(blob);
+			var down = document.createElement('a');
+
+			down.href = url;
+			down.setAttribute('download', 'tarefas.csv');
+			down.click();
+			$(down).remove();
+		}
+		else
+			alert("Não há tarefas criadas.");
 	}
 	Modules.GetTaskData = function(update)
 	{
@@ -664,13 +876,18 @@ var Handlers = function()
 		{
 			task.id = ++Tasks_Count;
 			task["Data de abertura"] = new Date();
-			
+
+			if(task["Status"] == "Encerrada")
+				task["Data de encerramento"] = new Date();
+			else
+				task["Data de encerramento"] = "N/A"
+
 			Tasks.push(task);
 		}
 		else
 		{
 			if(task["Status"] == "Ativa")
-				task["Data de encerramento"] = null;
+				task["Data de encerramento"] = "N/A"
 			else
 				task["Data de encerramento"] = new Date();
 		}

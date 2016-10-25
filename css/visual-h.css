@@ -1,5 +1,32 @@
 /*  Criado por Hanor Sátiro Cintra */
 
+:root
+{
+	--sys_BGC: rgba(178,34,34,1); /* É a cor predominante no sistema e define a cor de por exemplor: Nav-bar; */
+	--sys_TC: rgba(255,255,255,1); /* É a cor de texto de componentes que usem o sys_BGC */
+	--sys_BGC_selected: rgba(128,0,0,1); /* Para itens selecionados */
+
+
+	--sysBorC: rgba(0,0,0,0.1); /* Define a cor de borda dos elementos */
+
+
+	--attention_color:rgba(255,165,0,1); /* cor que denota algo para se prestar atenção */
+	--attention_color_selected:rgba(240,145,0,1); /* cor que denota algo para se prestar atenção */
+
+	--ready_color:rgba(43,150,59,1); /* Cor que denota que está tudo pronto */
+	--ready_color_selected:rgba(23,130,39,1); /* Cor que denota que está tudo pronto */
+
+	--danger_color: rgba(178,34,34,1); /* Cor que denota que está tudo pronto */
+
+  	--ccolor: rgba(255,255,255,0.1); /* cor do fundo do container */
+  	--borcolor: rgba(0,0,0,0.1); /* cor da borda para os itens do side bar */
+  	--icolorpop: rgba(255,255,255,1); /* cor dos icones dos botões da popover */
+  	
+  	--icolorhover:rgba(2,128,130, 1); /* cor de fundo de icone de carregar ao passsar o mouse */;
+  	--loadcolorhover:rgba(255,165,0,1); /* cor de fundo de icone de carregar ao passar o mouse*/
+  	--closeicolor:rgba(200,20,10,1); /* cor de fundo do botão de fechar*/
+  }
+
 html, body
 {
 	margin: 0px;
@@ -110,12 +137,30 @@ html, body
 }
 .v-window-btn
 {
+	float: left;
 	width: 1.2cm;
 	height: 100%;
 	text-align: center;
 	line-height: 1.2cm;
 	cursor: pointer;
 }
+
+.v-window-btn-download
+{
+	background: rgb(255,255,255);
+	border:1px solid rgba(0,0,0,0.2);
+	color: rgb(180, 45, 60);
+	display: none;
+}
+.v-window-btn-download:hover
+{
+	text-shadow: 0px 0px 8px rgb(255,255,255);
+	box-shadow: inset 0px 0px 15px 4px rgba(255,255,255,0.2);
+	color: rgb(255, 255, 255);
+	background: rgb(180, 45, 60);
+}
+
+
 .v-window-btn-ready
 {
 	color: rgb(255,255,255);
@@ -286,4 +331,41 @@ html, body
 .v-task-edit:hover, .v-task-remove:hover
 {
 	font-size: 16px;
+}
+
+/*- ----------------------------------------- Definições para o mecanismo de abertura de arquivos ----------------- */
+
+.v-load-file
+{
+	float: left;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	background: var(--attention_color);
+	line-height: 40px;
+	color: var(--sys_TC);;
+	cursor: pointer;	
+	border: 1px solid rgba(0,0,0,0.4);
+}
+.v-load-file:hover
+{
+	background: var(--attention_color_selected);
+	text-shadow: 0px 0px 5px var(--sys_TC);
+}
+.v-submit-file
+{
+	float: left;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	background: var(--ready_color);
+	line-height: 40px;
+	color: var(--sys_TC);
+	cursor: pointer;
+	border: 1px solid rgba(0,0,0,0.4);
+}
+.v-submit-file:hover
+{
+	background: var(--ready_color_selected);
+	text-shadow: 0px 0px 5px var(--sys_TC);
 }
